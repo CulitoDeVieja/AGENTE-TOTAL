@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>AGENTE-TOTAL · Tablero</title>
+    <link rel="stylesheet" href="/estilo.css" />
+  </head>
+  <body>
+    <header class="barra-superior">
+      <div class="titulo">🌱 AGENTE-TOTAL</div>
+      <div class="estado-conexion" id="estado-conexion">conectando…</div>
+    </header>
+
+    <main>
+      <section class="columna feed">
+        <h2>Feed en vivo</h2>
+        <ul id="feed"></ul>
+      </section>
+
+      <section class="columna kanban">
+        <h2>Tablero</h2>
+        <div class="tablero" id="tablero">
+          <div class="pila" data-estado="pendiente">
+            <h3>Pendientes</h3>
+            <ul></ul>
+          </div>
+          <div class="pila" data-estado="en-curso">
+            <h3>En curso</h3>
+            <ul></ul>
+          </div>
+          <div class="pila" data-estado="revision">
+            <h3>Esperan tu OK</h3>
+            <ul></ul>
+          </div>
+          <div class="pila" data-estado="aprobada">
+            <h3>Aprobadas</h3>
+            <ul></ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <button class="boton-flotante" id="boton-nueva">+ Nueva orden</button>
+
+    <dialog id="dialogo-nueva">
+      <form method="dialog" id="form-nueva">
+        <h3>Nueva orden para el jefe</h3>
+        <label>
+          Título
+          <input name="titulo" required maxlength="120" />
+        </label>
+        <label>
+          Detalle (opcional, contale al jefe con tus palabras qué querés)
+          <textarea name="descripcion" rows="5"></textarea>
+        </label>
+        <div class="acciones">
+          <button value="cancelar">Cancelar</button>
+          <button value="crear" class="primario">Crear</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

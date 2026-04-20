@@ -1,0 +1,256 @@
+:root {
+  --fondo: #0e1116;
+  --panel: #171b22;
+  --panel-2: #1f242d;
+  --borde: #2a313c;
+  --texto: #e6e8ec;
+  --texto-suave: #8a94a6;
+  --acento: #6aa0ff;
+  --verde: #4ade80;
+  --amarillo: #facc15;
+  --rojo: #f87171;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: var(--fondo);
+  color: var(--texto);
+  font-family:
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    sans-serif;
+}
+
+.barra-superior {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--borde);
+  background: var(--panel);
+}
+
+.titulo {
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.estado-conexion {
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+}
+
+main {
+  display: grid;
+  grid-template-columns: minmax(260px, 30%) 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  height: calc(100% - 56px);
+}
+
+@media (max-width: 780px) {
+  main {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+}
+
+.columna {
+  background: var(--panel);
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  overflow: auto;
+}
+
+.columna h2 {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+  color: var(--texto-suave);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+#feed {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#feed li {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--borde);
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+#feed li:last-child {
+  border-bottom: none;
+}
+
+.cuando {
+  color: var(--texto-suave);
+  font-size: 0.75rem;
+  display: block;
+  margin-bottom: 0.15rem;
+}
+
+.tablero {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+}
+
+@media (max-width: 780px) {
+  .tablero {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.pila {
+  background: var(--panel-2);
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  padding: 0.5rem;
+  min-height: 120px;
+}
+
+.pila h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+  letter-spacing: 1px;
+}
+
+.pila ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.tarjeta {
+  background: var(--panel);
+  border: 1px solid var(--borde);
+  border-radius: 6px;
+  padding: 0.5rem 0.6rem;
+  font-size: 0.88rem;
+}
+
+.tarjeta .titulo-tarea {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.tarjeta .meta {
+  color: var(--texto-suave);
+  font-size: 0.75rem;
+}
+
+.tarjeta .acciones-tarjeta {
+  display: flex;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+
+.tarjeta button {
+  flex: 1;
+  border: 1px solid var(--borde);
+  background: var(--panel-2);
+  color: var(--texto);
+  border-radius: 5px;
+  padding: 0.35rem 0.4rem;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.tarjeta button.aprobar {
+  border-color: #2e7d4a;
+  color: var(--verde);
+}
+
+.tarjeta button.rechazar {
+  border-color: #7a2e2e;
+  color: var(--rojo);
+}
+
+.boton-flotante {
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  background: var(--acento);
+  color: #0b1020;
+  border: none;
+  border-radius: 999px;
+  padding: 0.9rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+dialog {
+  background: var(--panel);
+  color: var(--texto);
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  max-width: 520px;
+  width: 92%;
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.55);
+}
+
+dialog label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin: 0.75rem 0;
+  font-size: 0.85rem;
+}
+
+dialog input,
+dialog textarea {
+  background: var(--panel-2);
+  border: 1px solid var(--borde);
+  border-radius: 6px;
+  color: var(--texto);
+  padding: 0.5rem;
+  font: inherit;
+}
+
+dialog .acciones {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: 0.75rem;
+}
+
+dialog button {
+  background: var(--panel-2);
+  color: var(--texto);
+  border: 1px solid var(--borde);
+  border-radius: 6px;
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+}
+
+dialog button.primario {
+  background: var(--acento);
+  color: #0b1020;
+  border-color: transparent;
+  font-weight: 600;
+}
