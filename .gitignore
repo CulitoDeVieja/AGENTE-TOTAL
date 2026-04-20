@@ -1,0 +1,12 @@
+node_modules/
+npm-debug.log*
+.env
+.env.local
+.DS_Store
+*.log
+coverage/
+.nyc_output/
+
+# Datos en vivo (se siembran en el arranque)
+datos/*.json
+!datos/.gitkeep
