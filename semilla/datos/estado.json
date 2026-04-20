@@ -1,0 +1,12 @@
+{
+  "tareas": [],
+  "feed": [
+    {
+      "id": 0,
+      "cuando": "2026-04-20T00:00:00.000Z",
+      "tipo": "sistema",
+      "mensaje": "Semilla iniciada. Creá la primera orden con el botón '+ Nueva orden'."
+    }
+  ],
+  "proximoId": 1
+}
