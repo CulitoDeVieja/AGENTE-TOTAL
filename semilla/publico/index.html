@@ -9,6 +9,7 @@
   <body>
     <header class="barra-superior">
       <div class="titulo">🌱 AGENTE-TOTAL</div>
+      <div class="leyenda">panel informativo · los agentes deciden</div>
       <div class="estado-conexion" id="estado-conexion">conectando…</div>
     </header>
 
@@ -29,37 +30,28 @@
             <h3>En curso</h3>
             <ul></ul>
           </div>
-          <div class="pila" data-estado="revision">
-            <h3>Esperan tu OK</h3>
+          <div class="pila" data-estado="hecha">
+            <h3>Hechas</h3>
             <ul></ul>
           </div>
-          <div class="pila" data-estado="aprobada">
-            <h3>Aprobadas</h3>
+          <div class="pila" data-estado="fallada">
+            <h3>Falladas</h3>
             <ul></ul>
           </div>
         </div>
       </section>
     </main>
 
-    <button class="boton-flotante" id="boton-nueva">+ Nueva orden</button>
-
-    <dialog id="dialogo-nueva">
-      <form method="dialog" id="form-nueva">
-        <h3>Nueva orden para el jefe</h3>
-        <label>
-          Título
-          <input name="titulo" required maxlength="120" />
-        </label>
-        <label>
-          Detalle (opcional, contale al jefe con tus palabras qué querés)
-          <textarea name="descripcion" rows="5"></textarea>
-        </label>
-        <div class="acciones">
-          <button value="cancelar">Cancelar</button>
-          <button value="crear" class="primario">Crear</button>
-        </div>
-      </form>
-    </dialog>
+    <form class="barra-orden" id="form-orden">
+      <input
+        id="input-orden"
+        name="titulo"
+        placeholder="Decile qué querés al sistema…"
+        autocomplete="off"
+        maxlength="300"
+      />
+      <button type="submit" class="enviar">Enviar orden</button>
+    </form>
 
     <script src="/app.js"></script>
   </body>

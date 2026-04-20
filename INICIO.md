@@ -46,13 +46,11 @@ Entrás con Chrome en Android → menú ⋮ → **"Instalar aplicación"**. Qued
 
 ## Paso 5 — Dar la primera orden
 
-Apretá el botón **"+ Nueva orden"** y escribí tu primera tarea. Para empezar la auto-construcción, la orden debería ser algo como:
+Escribí tu primera tarea en la barra inferior **"Decile qué querés al sistema…"** y apretá Enter. Para arrancar la auto-construcción, algo como:
 
-> **Título**: Armate a vos mismo completo
->
-> **Detalle**: Sos la semilla de AGENTE-TOTAL. Tu trabajo ahora es construir el resto del sistema como diseñamos. Leé el README del repo, y empezá creando el primer capataz (capataz-frontend) y su primera receta. Cuando estés por hacer cambios importantes, marcá la tarea para que el dueño apruebe desde el tablero.
+> **Armate a vos mismo completo.** Leé agentes/orquestador.md y actuá según ese rol. Construí el resto del sistema (capataces, bibliotecario, notificaciones, app nativa). Tenés autoridad total: decidí solo, registrá tus decisiones en el feed.
 
-Cuando guardes la orden, vas a ver en el tablero cómo pasa de "Pendiente" → "En curso" → "Esperan tu OK". Y en el feed de la izquierda vas viendo cada paso en castellano.
+Cuando enviás la orden vas a ver en el tablero cómo pasa de **Pendiente → En curso → Hecha**. El feed de la izquierda te muestra cada paso en castellano. **No hay aprobaciones**: los agentes deciden todo. Si algo no te gusta, mandás otra orden para revertirlo.
 
 ## Si algo falla
 

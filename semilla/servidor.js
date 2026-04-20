@@ -2,10 +2,14 @@
 // SERVIDOR — la columna vertebral de la Semilla
 // ============================================================
 // Hace 3 cosas:
-//   1. Sirve el tablero web (kanban + feed) en el navegador
-//   2. Expone una API para crear/leer/aprobar tareas
-//   3. Corre el "jefe de obra" en loop: busca tareas y las manda
-//      a los obreros para que las ejecuten
+//   1. Sirve el tablero web (solo lectura) en el navegador
+//   2. Expone una API: leer estado + crear nuevas órdenes
+//   3. Corre el "jefe de obra" en loop: busca tareas y las
+//      manda a los obreros para que las ejecuten
+//
+// El panel es 100% informativo. Los agentes deciden todo solos
+// según su autoridad (ver agentes/autoridad.md). No hay
+// aprobaciones humanas mid-flight.
 // ============================================================
 
 import express from 'express';
@@ -116,41 +120,6 @@ app.post('/api/tareas', async (req, res) => {
   res.json(tarea);
 });
 
-app.post('/api/tareas/:id/aprobar', async (req, res) => {
-  const id = Number(req.params.id);
-  const tarea = actualizarTarea(
-    id,
-    { estado: 'aprobada' },
-    'Aprobada por el dueño'
-  );
-  if (!tarea) return res.status(404).json({ error: 'no existe' });
-  agregarAlFeed({
-    tipo: 'aprobacion',
-    mensaje: `Aprobaste "${tarea.titulo}"`,
-    tareaId: id,
-  });
-  await guardarEstado();
-  res.json(tarea);
-});
-
-app.post('/api/tareas/:id/rechazar', async (req, res) => {
-  const id = Number(req.params.id);
-  const motivo = (req.body && req.body.motivo) || '';
-  const tarea = actualizarTarea(
-    id,
-    { estado: 'rechazada' },
-    `Rechazada por el dueño. Motivo: ${motivo || 'sin motivo'}`
-  );
-  if (!tarea) return res.status(404).json({ error: 'no existe' });
-  agregarAlFeed({
-    tipo: 'rechazo',
-    mensaje: `Rechazaste "${tarea.titulo}"`,
-    tareaId: id,
-  });
-  await guardarEstado();
-  res.json(tarea);
-});
-
 // ---------- Loop del jefe de obra ----------
 //
 // Cada cierto tiempo mira si hay tareas pendientes y las manda
@@ -186,18 +155,19 @@ async function loopJefe() {
           });
           actualizarTarea(
             pendiente.id,
-            { estado: 'revision', resultado },
-            'Obrero terminó, esperando tu revisión'
+            { estado: 'hecha', resultado },
+            'Obrero terminó'
           );
           agregarAlFeed({
             tipo: 'terminado',
-            mensaje: `Terminé "${pendiente.titulo}". Mirá y aprobá si está bien.`,
+            mensaje: `Terminé "${pendiente.titulo}".`,
             tareaId: pendiente.id,
           });
         } catch (err) {
+          const intentosPrevios = pendiente.intentos || 0;
           actualizarTarea(
             pendiente.id,
-            { estado: 'error' },
+            { estado: 'fallada', intentos: intentosPrevios + 1 },
             `Falló: ${err.message}`
           );
           agregarAlFeed({

@@ -55,5 +55,5 @@ Ver [INICIO.md](./INICIO.md).
 
 - **Todo en castellano** (código, mensajes, documentación)
 - **Explicaciones simples** — el sistema nunca te habla en jerga técnica
-- **Vos aprobás** las decisiones importantes (merges, deploys, cambios caros)
+- **Panel solo informativo** — los agentes resuelven todo de forma autónoma. El dueño mira el progreso y, si algo no le gusta, lo revierte con una nueva orden (ver [agentes/autoridad.md](./agentes/autoridad.md))
 - **El sistema mejora solo** — cada día mira qué aprendió y actualiza sus recetas

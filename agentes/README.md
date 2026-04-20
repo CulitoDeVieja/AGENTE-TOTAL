@@ -4,9 +4,10 @@ Esta carpeta tiene los **prompts de sistema** de cada rol. Son los "manuales de 
 
 | Rol | Archivo | Cuándo se invoca |
 |---|---|---|
-| Orquestador (Jefe) | `orquestador.md` | Cada 1 min, disparado por la app del dueño o por un cron |
+| Orquestador (Jefe) | `orquestador.md` | Cada 1 min, disparado por la app del dueño o un cron |
 | Capataz Backend | `capataz-backend.md` | Cuando el Orquestador le asigna una tarea |
 | Capataz Frontend | `capataz-frontend.md` | Cuando el Orquestador le asigna una tarea |
+| Autoridad | `autoridad.md` | Lo lee TODO agente antes de decidir |
 
 ## Sincronización — cómo no se pisan
 
@@ -19,6 +20,12 @@ La regla es una sola: **`semilla/datos/estado.json` es la fuente de verdad**.
 
 Si dos capataces quieren tocar el mismo archivo, gana el que llega primero y el segundo espera en estado `pendiente`. Por ahora hay poca concurrencia (1 obrero por vez en la Fase 0); cuando el sistema crezca, el Orquestador decide el orden.
 
+## Autonomía total
+
+El panel es **solo informativo**. Los agentes nunca piden aprobación humana durante la ejecución. Cada uno decide dentro de su `autoridad.md` y registra sus decisiones en el feed. Si al dueño no le gusta algo, manda una nueva orden para revertirlo.
+
 ## Pegar el prompt en tu app nativa
 
-Abrí `orquestador.md`, copiá todo el contenido desde la línea `Sos el **JEFE DE OBRA**...` hasta el final, y pegálo como prompt inicial de la sesión que tu app dispara cada minuto.
+1. Copiá el contenido de `orquestador.md` (desde `Sos el **JEFE DE OBRA**...` hasta el final) y pegalo como prompt de la sesión que tu app dispara **cada 1 minuto**.
+2. El Orquestador leerá `capataz-backend.md`, `capataz-frontend.md` y `autoridad.md` por sí mismo cuando necesite lanzar capataces.
+3. Opcional: si tu app no puede lanzar sub-agentes, el Orquestador deja tareas `pendientes` con el campo `agente` seteado, y el loop de `servidor.js` las despacha.

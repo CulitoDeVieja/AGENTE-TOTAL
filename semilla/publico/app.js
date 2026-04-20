@@ -1,14 +1,13 @@
 // ============================================================
-// Cliente del tablero — se conecta al servidor por WebSocket
-// y refleja el estado en tiempo real.
+// Cliente del tablero — solo lectura excepto el input
+// para darle órdenes nuevas al sistema.
 // ============================================================
 
 const elFeed = document.getElementById('feed');
 const elTablero = document.getElementById('tablero');
 const elEstadoConexion = document.getElementById('estado-conexion');
-const btnNueva = document.getElementById('boton-nueva');
-const dialogo = document.getElementById('dialogo-nueva');
-const formNueva = document.getElementById('form-nueva');
+const formOrden = document.getElementById('form-orden');
+const inputOrden = document.getElementById('input-orden');
 
 let estado = { tareas: [], feed: [] };
 
@@ -76,7 +75,9 @@ function dibujarTablero() {
     const ul = pila.querySelector('ul');
     ul.innerHTML = '';
     const estadoCol = pila.dataset.estado;
-    const tareas = estado.tareas.filter((t) => t.estado === estadoCol);
+    const tareas = estado.tareas
+      .filter((t) => t.estado === estadoCol && !t.archivada)
+      .slice(-30);
     for (const t of tareas) ul.append(tarjeta(t));
   }
 }
@@ -91,24 +92,10 @@ function tarjeta(t) {
 
   const meta = document.createElement('div');
   meta.className = 'meta';
-  meta.textContent = `#${t.id} · ${t.agente || 'jefe'} · ${formatearHora(t.actualizada)}`;
+  const intentos = t.intentos ? ` · intentos: ${t.intentos}` : '';
+  meta.textContent = `#${t.id} · ${t.agente || 'jefe'}${intentos} · ${formatearHora(t.actualizada)}`;
 
   li.append(titulo, meta);
-
-  if (t.estado === 'revision') {
-    const acc = document.createElement('div');
-    acc.className = 'acciones-tarjeta';
-    const ok = document.createElement('button');
-    ok.className = 'aprobar';
-    ok.textContent = 'Aprobar';
-    ok.onclick = () => aprobar(t.id);
-    const no = document.createElement('button');
-    no.className = 'rechazar';
-    no.textContent = 'Rechazar';
-    no.onclick = () => rechazar(t.id);
-    acc.append(ok, no);
-    li.append(acc);
-  }
   return li;
 }
 
@@ -121,34 +108,22 @@ function formatearHora(iso) {
   });
 }
 
-// ---------- Acciones ----------
+// ---------- Input de órdenes ----------
 
-async function aprobar(id) {
-  await fetch(`/api/tareas/${id}/aprobar`, { method: 'POST' });
-}
-
-async function rechazar(id) {
-  const motivo = prompt('¿Por qué lo rechazás? (podés dejarlo vacío)') || '';
-  await fetch(`/api/tareas/${id}/rechazar`, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ motivo }),
-  });
-}
-
-btnNueva.onclick = () => dialogo.showModal();
-
-formNueva.addEventListener('submit', async (ev) => {
-  const accion = ev.submitter?.value;
-  if (accion !== 'crear') return;
+formOrden.addEventListener('submit', async (ev) => {
   ev.preventDefault();
-  const datos = Object.fromEntries(new FormData(formNueva).entries());
-  if (!datos.titulo) return;
-  await fetch('/api/tareas', {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify(datos),
-  });
-  formNueva.reset();
-  dialogo.close();
+  const titulo = inputOrden.value.trim();
+  if (!titulo) return;
+  inputOrden.disabled = true;
+  try {
+    await fetch('/api/tareas', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ titulo }),
+    });
+    inputOrden.value = '';
+  } finally {
+    inputOrden.disabled = false;
+    inputOrden.focus();
+  }
 });

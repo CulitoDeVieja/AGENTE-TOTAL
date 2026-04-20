@@ -33,14 +33,22 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 1rem;
   padding: 0.75rem 1rem;
   border-bottom: 1px solid var(--borde);
   background: var(--panel);
+  flex-wrap: wrap;
 }
 
 .titulo {
   font-weight: 600;
   letter-spacing: 0.3px;
+}
+
+.leyenda {
+  color: var(--texto-suave);
+  font-size: 0.78rem;
+  letter-spacing: 0.5px;
 }
 
 .estado-conexion {
@@ -53,7 +61,7 @@ main {
   grid-template-columns: minmax(260px, 30%) 1fr;
   gap: 1rem;
   padding: 1rem;
-  height: calc(100% - 56px);
+  height: calc(100% - 56px - 64px);
 }
 
 @media (max-width: 780px) {
@@ -131,6 +139,14 @@ main {
   letter-spacing: 1px;
 }
 
+.pila[data-estado='fallada'] h3 {
+  color: var(--rojo);
+}
+
+.pila[data-estado='hecha'] h3 {
+  color: var(--verde);
+}
+
 .pila ul {
   list-style: none;
   padding: 0;
@@ -158,99 +174,48 @@ main {
   font-size: 0.75rem;
 }
 
-.tarjeta .acciones-tarjeta {
-  display: flex;
-  gap: 0.35rem;
-  margin-top: 0.5rem;
-}
-
-.tarjeta button {
-  flex: 1;
-  border: 1px solid var(--borde);
-  background: var(--panel-2);
-  color: var(--texto);
-  border-radius: 5px;
-  padding: 0.35rem 0.4rem;
-  font-size: 0.78rem;
-  cursor: pointer;
-}
-
-.tarjeta button.aprobar {
-  border-color: #2e7d4a;
-  color: var(--verde);
-}
-
-.tarjeta button.rechazar {
-  border-color: #7a2e2e;
-  color: var(--rojo);
-}
-
-.boton-flotante {
+.barra-orden {
   position: fixed;
-  bottom: 1.25rem;
-  right: 1.25rem;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--panel);
+  border-top: 1px solid var(--borde);
+  z-index: 10;
+}
+
+.barra-orden input {
+  flex: 1;
+  background: var(--panel-2);
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  color: var(--texto);
+  padding: 0.7rem 0.9rem;
+  font: inherit;
+  min-height: 44px;
+}
+
+.barra-orden input:focus {
+  outline: 2px solid var(--acento);
+  outline-offset: 2px;
+}
+
+.barra-orden .enviar {
   background: var(--acento);
   color: #0b1020;
   border: none;
-  border-radius: 999px;
-  padding: 0.9rem 1.2rem;
-  font-size: 0.95rem;
+  border-radius: 8px;
+  padding: 0 1.1rem;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  min-height: 44px;
+  min-width: 44px;
 }
 
-dialog {
-  background: var(--panel);
-  color: var(--texto);
-  border: 1px solid var(--borde);
-  border-radius: 10px;
-  padding: 1rem 1.25rem;
-  max-width: 520px;
-  width: 92%;
-}
-
-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.55);
-}
-
-dialog label {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  margin: 0.75rem 0;
-  font-size: 0.85rem;
-}
-
-dialog input,
-dialog textarea {
-  background: var(--panel-2);
-  border: 1px solid var(--borde);
-  border-radius: 6px;
-  color: var(--texto);
-  padding: 0.5rem;
-  font: inherit;
-}
-
-dialog .acciones {
-  display: flex;
-  gap: 0.5rem;
-  justify-content: flex-end;
-  margin-top: 0.75rem;
-}
-
-dialog button {
-  background: var(--panel-2);
-  color: var(--texto);
-  border: 1px solid var(--borde);
-  border-radius: 6px;
-  padding: 0.5rem 0.9rem;
-  cursor: pointer;
-}
-
-dialog button.primario {
-  background: var(--acento);
-  color: #0b1020;
-  border-color: transparent;
-  font-weight: 600;
+.barra-orden .enviar:disabled {
+  opacity: 0.5;
+  cursor: wait;
 }
